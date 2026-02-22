@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kenzie - Mijn Account</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        html {
+            font-size: 16px;
+        }
+        
+        @media (max-width: 375px) {
+            html { font-size: 14px; }
+        }
+        
+        @media (min-width: 768px) {
+            html { font-size: 18px; }
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        .bg-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(99, 102, 241, 0.1) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(236, 72, 153, 0.1) 0px, transparent 50%),
+                #0a0a0f;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                padding: 2rem;
+            }
+        }
+        
+        .login-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.5rem;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            margin-top: 20vh;
+        }
+        
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .logo-icon span {
+            font-size: 40px;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .input-field {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1rem;
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        .input-field:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+        }
+        
+        .input-field::placeholder {
+            color: #6b7280;
+        }
+        
+        .btn-primary {
+            width: 100%;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 1rem;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+        
+        .level-card {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            border-radius: 1.5rem;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .level-badge {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #000;
+            padding: 0.5rem 1.5rem;
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+        
+        .xp-circle {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #fbbf24 var(--progress, 0%), rgba(255,255,255,0.1) var(--progress, 0%));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            position: relative;
+        }
+        
+        .xp-circle::before {
+            content: '';
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: #0a0a0f;
+        }
+        
+        .xp-circle-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+        
+        .xp-emoji {
+            font-size: 2rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .xp-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fbbf24;
+        }
+        
+        .progress-bar {
+            height: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 0.25rem;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #fbbf24, #f59e0b);
+            border-radius: 0.25rem;
+            transition: width 0.5s ease;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1rem;
+            padding: 1.25rem 1rem;
+            text-align: center;
+        }
+        
+        .stat-card i {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+        
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .section-title i {
+            color: #fbbf24;
+        }
+        
+        .reward-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1rem;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .reward-card.locked {
+            opacity: 0.5;
+        }
+        
+        .reward-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+        
+        .reward-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .reward-info h4 {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.25rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .reward-info p {
+            font-size: 0.8125rem;
+            color: #6b7280;
+        }
+        
+        .reward-level {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.375rem 0.75rem;
+            border-radius: 2rem;
+            font-size: 0.6875rem;
+            color: #9ca3af;
+            flex-shrink: 0;
+        }
+        
+        .leaderboard-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1rem;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .leaderboard-rank {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.875rem;
+            flex-shrink: 0;
+        }
+        
+        .leaderboard-rank.gold {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #000;
+        }
+        
+        .leaderboard-rank.silver {
+            background: linear-gradient(135deg, #c0c0c0, #a0a0a0);
+            color: #000;
+        }
+        
+        .leaderboard-rank.bronze {
+            background: linear-gradient(135deg, #cd7f32, #b87333);
+            color: #fff;
+        }
+        
+        .leaderboard-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #fff;
+            font-size: 0.875rem;
+            flex-shrink: 0;
+        }
+        
+        .leaderboard-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .leaderboard-info h4 {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .leaderboard-info p {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+        
+        .leaderboard-xp {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fbbf24;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            flex-shrink: 0;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .welcome-text {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+        }
+        
+        .customer-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-mesh"></div>
+    
+    <div class="container">
+        <!-- Login Screen -->
+        <div id="loginScreen" class="login-card">
+            <div class="logo-icon">
+                <span>K</span>
+            </div>
+            <h1 class="customer-name">Welkom bij Kenzie</h1>
+            <p class="welcome-text">Log in met je telefoonnummer om je 💨 en beloningen te zien</p>
+            
+            <input type="text" id="loginName" class="input-field" placeholder="Je naam">
+            <input type="tel" id="loginPhone" class="input-field" placeholder="Je telefoonnummer (bijv. 0470123456)">
+            <button class="btn-primary" onclick="login()">
+                <i class="fas fa-sign-in-alt"></i> Inloggen
+            </button>
+        </div>
+        
+        <!-- Dashboard Screen -->
+        <div id="dashboardScreen" class="hidden">
+            <!-- Welcome -->
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+                <h1 class="customer-name">Hallo <span id="customerName">-</span>!</h1>
+                <p class="welcome-text">Bekijk je 💨 voortgang</p>
+            </div>
+            
+            <!-- Level Card -->
+            <div class="level-card">
+                <span class="level-badge" id="currentLevel">STARTER</span>
+                
+                <div class="xp-circle" id="xpCircle" style="--progress: 0%;">
+                    <div class="xp-circle-content">
+                        <div class="xp-emoji">💨</div>
+                        <div class="xp-value" id="currentXP">0</div>
+                    </div>
+                </div>
+                
+                <p class="text-gray-400 text-sm" id="nextLevelText">Nog 100 💨 tot Bronze</p>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="xpProgressBar" style="width: 0%;"></div>
+                </div>
+            </div>
+            
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-shopping-bag text-blue-400"></i>
+                    <div class="stat-value" id="orderCount">0</div>
+                    <div class="stat-label">Bestellingen</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-wind text-cyan-400"></i>
+                    <div class="stat-value" id="totalXP">0</div>
+                    <div class="stat-label">Totaal 💨</div>
+                </div>
+            </div>
+            
+            <!-- Rewards -->
+            <div style="margin-bottom: 1.5rem;">
+                <h3 class="section-title">
+                    <i class="fas fa-gift"></i>
+                    Jouw Beloningen
+                </h3>
+                <div id="rewardsList"></div>
+            </div>
+            
+            <!-- Leaderboard -->
+            <div>
+                <h3 class="section-title">
+                    <i class="fas fa-trophy"></i>
+                    Leaderboard
+                </h3>
+                <div id="leaderboardList"></div>
+            </div>
+            
+            <button class="btn-primary" style="margin-top: 2rem;" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> Uitloggen
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        const levels = [
+            { level: 1, name: 'STARTER', xpRequired: 0, reward: 'Welkom bij Kenzie!' },
+            { level: 2, name: 'BRONZE', xpRequired: 100, reward: '-€5 korting!' },
+            { level: 3, name: 'SILVER', xpRequired: 300, reward: '-10% korting!' },
+            { level: 4, name: 'GOLD', xpRequired: 600, reward: 'Gratis verzending!' },
+            { level: 5, name: 'PLATINUM', xpRequired: 1000, reward: '-15% korting!' },
+            { level: 6, name: 'DIAMOND', xpRequired: 1500, reward: 'Gratis product!' }
+        ];
+        
+        let currentCustomer = null;
+        let customerData = null;
+        
+        // Check if already logged in
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedCustomer = localStorage.getItem('kenzie_customer');
+            if (savedCustomer) {
+                currentCustomer = JSON.parse(savedCustomer);
+                loadCustomerData(currentCustomer.id);
+            }
+        });
+        
+        async function login() {
+            const name = document.getElementById('loginName').value.trim();
+            const phone = document.getElementById('loginPhone').value.trim();
+            
+            if (!name || !phone) {
+                alert('Vul je naam en telefoonnummer in');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, phone })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    currentCustomer = data.customer;
+                    localStorage.setItem('kenzie_customer', JSON.stringify(data.customer));
+                    loadCustomerData(data.customer.id);
+                } else {
+                    alert('Inloggen mislukt');
+                }
+            } catch (error) {
+                alert('Er is een fout opgetreden');
+            }
+        }
+        
+        async function loadCustomerData(customerId) {
+            try {
+                const response = await fetch(`/api/customer/${customerId}`);
+                customerData = await response.json();
+                
+                showDashboard();
+                updateDisplay();
+            } catch (error) {
+                console.error('Error loading data:', error);
+            }
+        }
+        
+        function showDashboard() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('dashboardScreen').classList.remove('hidden');
+        }
+        
+        function logout() {
+            localStorage.removeItem('kenzie_customer');
+            currentCustomer = null;
+            customerData = null;
+            document.getElementById('dashboardScreen').classList.add('hidden');
+            document.getElementById('loginScreen').classList.remove('hidden');
+        }
+        
+        function getCurrentLevel(xp) {
+            for (let i = levels.length - 1; i >= 0; i--) {
+                if (xp >= levels[i].xpRequired) {
+                    return { current: levels[i], next: levels[i + 1] || null };
+                }
+            }
+            return { current: levels[0], next: levels[1] };
+        }
+        
+        function updateDisplay() {
+            if (!customerData) return;
+            
+            const xp = customerData.xp.xp || 0;
+            const totalXP = customerData.xp.totalXP || 0;
+            const orders = customerData.orders.length;
+            const { current, next } = getCurrentLevel(xp);
+            
+            document.getElementById('customerName').textContent = customerData.customer.name;
+            document.getElementById('currentLevel').textContent = current.name;
+            document.getElementById('currentXP').textContent = xp;
+            document.getElementById('totalXP').textContent = totalXP;
+            document.getElementById('orderCount').textContent = orders;
+            
+            if (next) {
+                const xpNeeded = next.xpRequired - xp;
+                const progress = ((xp - current.xpRequired) / (next.xpRequired - current.xpRequired)) * 100;
+                
+                document.getElementById('nextLevelText').textContent = `Nog ${xpNeeded} 💨 tot ${next.name}`;
+                document.getElementById('xpProgressBar').style.width = `${Math.max(0, Math.min(100, progress))}%`;
+                document.getElementById('xpCircle').style.setProperty('--progress', `${Math.max(0, Math.min(100, progress))}%`);
+            } else {
+                document.getElementById('nextLevelText').textContent = 'Max level bereikt! 💨';
+                document.getElementById('xpProgressBar').style.width = '100%';
+                document.getElementById('xpCircle').style.setProperty('--progress', '100%');
+            }
+            
+            renderRewards(xp);
+            renderLeaderboard();
+        }
+        
+        function renderRewards(currentXP) {
+            const container = document.getElementById('rewardsList');
+            
+            container.innerHTML = levels.slice(1).map((level) => {
+                const isUnlocked = currentXP >= level.xpRequired;
+                
+                return `
+                    <div class="reward-card ${!isUnlocked ? 'locked' : ''}">
+                        <div class="reward-icon">
+                            <i class="fas ${isUnlocked ? 'fa-unlock text-green-400' : 'fa-lock text-gray-500'}"></i>
+                        </div>
+                        <div class="reward-info">
+                            <h4>${level.name} Beloning</h4>
+                            <p>${level.reward}</p>
+                        </div>
+                        <span class="reward-level">Level ${level.level}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function renderLeaderboard() {
+            const container = document.getElementById('leaderboardList');
+            
+            if (!customerData || !customerData.leaderboard) {
+                container.innerHTML = '<p class="text-gray-500 text-center">Geen leaderboard data</p>';
+                return;
+            }
+            
+            container.innerHTML = customerData.leaderboard.map((entry, index) => {
+                const rankClass = index === 0 ? 'gold' : index === 1 ? 'silver' : index === 2 ? 'bronze' : '';
+                const isCurrentUser = entry.id === currentCustomer?.id;
+                
+                return `
+                    <div class="leaderboard-item" style="${isCurrentUser ? 'border-color: rgba(99, 102, 241, 0.5); background: rgba(99, 102, 241, 0.05);' : ''}">
+                        <div class="leaderboard-rank ${rankClass}">
+                            ${index === 0 ? '<i class="fas fa-crown"></i>' : index === 1 ? '<i class="fas fa-medal"></i>' : index === 2 ? '<i class="fas fa-award"></i>' : `<span>${index + 1}</span>`}
+                        </div>
+                        <div class="leaderboard-avatar">
+                            ${entry.name.charAt(0).toUpperCase()}
+                        </div>
+                        <div class="leaderboard-info">
+                            <h4>${entry.name} ${isCurrentUser ? '<span style="color: #6366f1;">(Jij)</span>' : ''}</h4>
+                            <p>${entry.level}</p>
+                        </div>
+                        <div class="leaderboard-xp">
+                            ${entry.xp} 💨
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // Refresh data every 10 seconds
+        setInterval(() => {
+            if (currentCustomer) {
+                loadCustomerData(currentCustomer.id);
+            }
+        }, 10000);
+    </script>
+</body>
+</html>
